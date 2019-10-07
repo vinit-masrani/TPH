@@ -1,0 +1,46 @@
+import sys
+sys.setrecursionlimit(2500)
+ 
+def lcs(x,y):   
+    for i in range(1,m):
+        for j in range(1,n):
+            if x[i]==y[j]:
+                c[i][j]=c[i-1][j-1]+1
+                b[i][j]=1
+            elif c[i-1][j]>=c[i][j-1] :
+                     c[i][j]=c[i-1][j]
+                     b[i][j]=2
+            else:
+                     c[i][j]=c[i][j-1]
+                     b[i][j]=3
+    return c,b
+  
+def PRINT(b,x,i,j):
+    if i==0 or j==0 :
+        return
+    if b[i][j]==1 :
+        PRINT(b,x,i-1,j-1)
+        main.append(x[i])
+        
+    elif b[i][j]==2 :
+        PRINT(b,x,i-1,j)    
+    else:
+        PRINT(b,x,i,j-1) 
+ 
+if __name__ == "__main__":
+    main=[]
+    exp=[i for i in input().split()]
+    
+    x=[""]
+    y=[""]
+    for i in range(1,len(exp[0])+1):x.append(exp[0][i-1])
+    for i in range(1,len(exp[1])+1):y.append(exp[1][i-1])
+    m,n=len(x),len(y)
+    
+    c=[[0 for i in range(n) ] for j in range(m)]
+    b=[[0 for i in range(n) ] for j in range(m)]
+                    
+    lcs(x,y)
+    
+    PRINT(b,x,m-1,n-1)
+    print(len(main))
